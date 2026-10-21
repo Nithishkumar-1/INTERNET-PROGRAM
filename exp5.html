@@ -1,0 +1,601 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Flight Reservation System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #e0f2e9;
+            color: #263238;
+        }
+
+        header {
+            background-color: #075e54;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        nav {
+            background-color: #138578;
+            text-align: center;
+            padding: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #ffe082;
+        }
+
+        section {
+            background-color: white;
+            width: 85%;
+            margin: 20px auto;
+            padding: 22px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px #b8d5c8;
+        }
+
+        h2 {
+            color: #075e54;
+        }
+
+        input, select, textarea {
+            width: 95%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            border: 1px solid #a8cfc0;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #075e54;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 4px;
+        }
+
+        button:hover {
+            background-color: #138578;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #b8d5c8;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #138578;
+            color: white;
+        }
+
+        .message {
+            color: #075e54;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: #075e54;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        @media (max-width: 600px) {
+            nav a {
+                display: inline-block;
+                margin: 7px;
+            }
+
+            section {
+                width: 88%;
+                padding: 15px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #ticketDetails, #ticketDetails * {
+                visibility: visible;
+            }
+
+            #ticketDetails {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Online Flight Reservation System</h1>
+    <p>Book Your Flight Tickets Easily and Safely</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#adminLogin">Admin Login</a>
+    <a href="#forgot">Forgot Password</a>
+    <a href="#search">Search Flights</a>
+    <a href="#booking">Book Ticket</a>
+    <a href="#payment">Payment</a>
+    <a href="#myTicket">My Ticket</a>
+    <a href="#feedback">Feedback</a>
+</nav>
+
+<section id="home">
+    <h2>Welcome to Flight Reservation</h2>
+    <p>
+        Search flights, check available seats, book tickets,
+        view booking status, print e-tickets and manage your travel.
+    </p>
+</section>
+
+<section id="adminLogin">
+    <h2>Administrator Login</h2>
+
+    <form onsubmit="adminLogin(event)">
+        <label>Admin Username:</label>
+        <input type="text" id="adminName" required>
+
+        <label>Password:</label>
+        <input type="password" id="adminPassword" required>
+
+        <button type="submit">Admin Login</button>
+    </form>
+
+    <p id="adminMessage" class="message"></p>
+</section>
+
+<section id="forgot">
+    <h2>Forgot Password</h2>
+
+    <form onsubmit="forgotPassword(event)">
+        <label>Registered Email:</label>
+        <input type="email" id="resetEmail" required>
+
+        <button type="submit">Reset Password</button>
+    </form>
+
+    <p id="resetMessage" class="message"></p>
+</section>
+
+<section id="search">
+    <h2>Search Available Flights</h2>
+
+    <form onsubmit="searchFlights(event)">
+        <label>From:</label>
+        <input type="text" id="from" placeholder="Departure city" required>
+
+        <label>To:</label>
+        <input type="text" id="to" placeholder="Destination city" required>
+
+        <label>Departure Date:</label>
+        <input type="date" id="flightDate" required>
+
+        <label>Travel Class:</label>
+        <select id="flightClass">
+            <option>Economy</option>
+            <option>Premium Economy</option>
+            <option>Business</option>
+            <option>First Class</option>
+        </select>
+
+        <button type="submit">Search Flights</button>
+    </form>
+
+    <p id="searchMessage" class="message"></p>
+</section>
+
+<section>
+    <h2>Available Flight List</h2>
+
+    <table>
+        <tr>
+            <th>Flight No.</th>
+            <th>Airline</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Available Seats</th>
+            <th>Fare</th>
+        </tr>
+
+        <tr>
+            <td>AI101</td>
+            <td>Air India</td>
+            <td>09:00 AM</td>
+            <td>11:00 AM</td>
+            <td>25</td>
+            <td>₹4,500</td>
+        </tr>
+
+        <tr>
+            <td>6E202</td>
+            <td>IndiGo</td>
+            <td>01:00 PM</td>
+            <td>03:00 PM</td>
+            <td>30</td>
+            <td>₹3,800</td>
+        </tr>
+
+        <tr>
+            <td>UK303</td>
+            <td>Vistara (sample)</td>
+            <td>06:00 PM</td>
+            <td>08:00 PM</td>
+            <td>18</td>
+            <td>₹5,200</td>
+        </tr>
+    </table>
+</section>
+
+<section id="booking">
+    <h2>Book Flight Ticket</h2>
+
+    <form onsubmit="bookFlight(event)">
+        <label>Passenger Name:</label>
+        <input type="text" id="passengerName" required>
+
+        <label>Age:</label>
+        <input type="number" id="passengerAge" min="1" max="120" required>
+
+        <label>Gender:</label>
+        <select id="gender">
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+        </select>
+
+        <label>Flight:</label>
+        <select id="flightName">
+            <option>AI101 - Air India</option>
+            <option>6E202 - IndiGo</option>
+            <option>UK303 - Sample Flight</option>
+        </select>
+
+        <label>Journey Date:</label>
+        <input type="date" id="bookingDate" required>
+
+        <label>Travel Class:</label>
+        <select id="bookingClass">
+            <option>Economy</option>
+            <option>Premium Economy</option>
+            <option>Business</option>
+            <option>First Class</option>
+        </select>
+
+        <label>Seat Preference:</label>
+        <select id="seat">
+            <option>Window</option>
+            <option>Aisle</option>
+            <option>Middle</option>
+        </select>
+
+        <button type="submit">Continue Booking</button>
+    </form>
+
+    <p id="bookingMessage" class="message"></p>
+    <div id="ticketDetails"></div>
+
+    <button type="button" onclick="printTicket()">Print Ticket</button>
+</section>
+
+<section id="payment">
+    <h2>Ticket Payment</h2>
+
+    <form onsubmit="makePayment(event)">
+        <label>Booking ID:</label>
+        <input type="text" id="paymentBookingId" required>
+
+        <label>Payment Method:</label>
+        <select id="paymentMethod">
+            <option>UPI</option>
+            <option>Debit Card</option>
+            <option>Credit Card</option>
+            <option>Net Banking</option>
+            <option>Offline</option>
+        </select>
+
+        <button type="submit">Confirm Demo Payment</button>
+    </form>
+
+    <p id="paymentMessage" class="message"></p>
+</section>
+
+<section id="myTicket">
+    <h2>My Ticket / Booking Status</h2>
+
+    <form onsubmit="viewTicket(event)">
+        <label>Enter Booking ID:</label>
+        <input type="text" id="viewBookingId" required>
+
+        <button type="submit">View Ticket</button>
+    </form>
+
+    <p id="viewMessage" class="message"></p>
+    <div id="viewTicketDetails"></div>
+</section>
+
+<section>
+    <h2>Cancel Flight Ticket</h2>
+
+    <form onsubmit="cancelFlight(event)">
+        <label>Booking ID:</label>
+        <input type="text" id="cancelBookingId" required>
+
+        <button type="submit">Cancel Ticket</button>
+    </form>
+
+    <p id="cancelMessage" class="message"></p>
+</section>
+
+<section id="feedback">
+    <h2>Customer Feedback</h2>
+
+    <form onsubmit="submitFeedback(event)">
+        <label>Name:</label>
+        <input type="text" id="feedbackName" required>
+
+        <label>Rating:</label>
+        <select id="rating">
+            <option>5 - Excellent</option>
+            <option>4 - Very Good</option>
+            <option>3 - Good</option>
+            <option>2 - Average</option>
+            <option>1 - Poor</option>
+        </select>
+
+        <label>Comments:</label>
+        <textarea id="feedbackText" required></textarea>
+
+        <button type="submit">Submit Feedback</button>
+    </form>
+
+    <div id="feedbackList"></div>
+</section>
+
+<section id="adminReport">
+    <h2>Admin Report</h2>
+
+    <button onclick="generateReport()">Generate Report</button>
+    <div id="reportMessage" class="message"></div>
+</section>
+
+<footer>
+    <p>Online Flight Reservation System</p>
+    <p>Internet Programming Lab Experiment</p>
+</footer>
+
+<script>
+    let bookings = [];
+    let nextBookingId = 1001;
+
+    function adminLogin(event) {
+        event.preventDefault();
+
+        document.getElementById("adminMessage").textContent =
+            "Demo login submitted. Real admin authentication requires a server.";
+    }
+
+    function forgotPassword(event) {
+        event.preventDefault();
+
+        document.getElementById("resetMessage").textContent =
+            "Demo request submitted. A real reset requires email verification.";
+    }
+
+    function searchFlights(event) {
+        event.preventDefault();
+
+        const from = document.getElementById("from").value;
+        const to = document.getElementById("to").value;
+        const date = document.getElementById("flightDate").value;
+        const travelClass = document.getElementById("flightClass").value;
+
+        document.getElementById("searchMessage").textContent =
+            "Search: " + from + " to " + to + " | Date: " + date +
+            " | Class: " + travelClass +
+            ". The sample flight list is displayed below.";
+    }
+
+    function bookFlight(event) {
+        event.preventDefault();
+
+        const booking = {
+            id: String(nextBookingId++),
+            name: document.getElementById("passengerName").value,
+            age: document.getElementById("passengerAge").value,
+            gender: document.getElementById("gender").value,
+            flight: document.getElementById("flightName").value,
+            date: document.getElementById("bookingDate").value,
+            travelClass: document.getElementById("bookingClass").value,
+            seat: document.getElementById("seat").value,
+            status: "PENDING PAYMENT",
+            paid: false
+        };
+
+        bookings.push(booking);
+
+        document.getElementById("bookingMessage").textContent =
+            "Booking created. Complete the demo payment using Booking ID: "
+            + booking.id;
+
+        document.getElementById("paymentBookingId").value = booking.id;
+
+        showTicket("ticketDetails", booking);
+        event.target.reset();
+    }
+
+    function showTicket(elementId, booking) {
+        const container = document.getElementById(elementId);
+        container.replaceChildren();
+
+        const title = document.createElement("h3");
+        title.textContent = "E-Ticket Details";
+        container.appendChild(title);
+
+        const details = [
+            "Booking ID: " + booking.id,
+            "Passenger: " + booking.name,
+            "Flight: " + booking.flight,
+            "Journey Date: " + booking.date,
+            "Class: " + booking.travelClass,
+            "Seat Preference: " + booking.seat,
+            "Status: " + booking.status
+        ];
+
+        details.forEach(function(detail) {
+            const p = document.createElement("p");
+            p.textContent = detail;
+            container.appendChild(p);
+        });
+    }
+
+    function makePayment(event) {
+        event.preventDefault();
+
+        const id = document.getElementById("paymentBookingId").value.trim();
+        const booking = bookings.find(item => item.id === id);
+
+        if (!booking) {
+            document.getElementById("paymentMessage").textContent =
+                "Booking ID not found.";
+            return;
+        }
+
+        if (booking.status === "CANCELLED") {
+            document.getElementById("paymentMessage").textContent =
+                "This booking has been cancelled.";
+            return;
+        }
+
+        if (booking.paid) {
+            document.getElementById("paymentMessage").textContent =
+                "Payment was already marked as complete.";
+            return;
+        }
+
+        booking.paid = true;
+        booking.status = "CONFIRMED";
+
+        document.getElementById("paymentMessage").textContent =
+            "Demo payment marked successful. Booking ID: " + booking.id;
+
+        showTicket("ticketDetails", booking);
+    }
+
+    function viewTicket(event) {
+        event.preventDefault();
+
+        const id = document.getElementById("viewBookingId").value.trim();
+        const booking = bookings.find(item => item.id === id);
+
+        if (booking) {
+            showTicket("viewTicketDetails", booking);
+            document.getElementById("viewMessage").textContent =
+                "Booking details found.";
+        } else {
+            document.getElementById("viewMessage").textContent =
+                "Booking not found in this session.";
+            document.getElementById("viewTicketDetails").replaceChildren();
+        }
+    }
+
+    function cancelFlight(event) {
+        event.preventDefault();
+
+        const id = document.getElementById("cancelBookingId").value.trim();
+        const booking = bookings.find(item => item.id === id);
+
+        if (!booking) {
+            document.getElementById("cancelMessage").textContent =
+                "Booking not found.";
+        } else if (booking.status === "CANCELLED") {
+            document.getElementById("cancelMessage").textContent =
+                "This ticket is already cancelled.";
+        } else {
+            booking.status = "CANCELLED";
+
+            document.getElementById("cancelMessage").textContent =
+                "Demo ticket cancelled. No real refund was processed.";
+        }
+    }
+
+    function printTicket() {
+        if (document.getElementById("ticketDetails").children.length === 0) {
+            alert("Please book a ticket first.");
+            return;
+        }
+
+        window.print();
+    }
+
+    function submitFeedback(event) {
+        event.preventDefault();
+
+        const name = document.getElementById("feedbackName").value;
+        const rating = document.getElementById("rating").value;
+        const comment = document.getElementById("feedbackText").value;
+
+        const p = document.createElement("p");
+        p.textContent = name + " | " + rating + " | " + comment;
+
+        document.getElementById("feedbackList").appendChild(p);
+        event.target.reset();
+    }
+
+    function generateReport() {
+        const confirmed = bookings.filter(
+            item => item.status === "CONFIRMED"
+        ).length;
+
+        const cancelled = bookings.filter(
+            item => item.status === "CANCELLED"
+        ).length;
+
+        const pending = bookings.filter(
+            item => item.status === "PENDING PAYMENT"
+        ).length;
+
+        document.getElementById("reportMessage").textContent =
+            "Total bookings: " + bookings.length +
+            " | Confirmed: " + confirmed +
+            " | Pending payment: " + pending +
+            " | Cancelled: " + cancelled;
+    }
+</script>
+
+</body>
+</html>
